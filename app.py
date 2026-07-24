@@ -351,32 +351,31 @@ st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
     html, body, [class*="css"] { font-family: 'Outfit', sans-serif; }
-    .stApp { background: #0a0a0a; color: #ededed; }
+    .stApp { background: #ffffff; color: #1a1a1a; }
     
     /* Top Navigation bar styling */
     div[data-testid="stRadio"] > div {
         flex-direction: row;
         justify-content: center;
-        background: rgba(26, 26, 26, 0.7);
+        background: #ffffff;
         padding: 10px;
         border-radius: 12px;
         border: 1px solid rgba(255, 0, 51, 0.3);
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     }
-    .stRadio label { color: #cccccc !important; font-weight: 600; padding: 6px 16px; margin: 0 4px; cursor: pointer; }
+    .stRadio label { color: #333333 !important; font-weight: 600; padding: 6px 16px; margin: 0 4px; cursor: pointer; }
     
     div[data-testid="stMetric"] {
-        background: rgba(26, 26, 26, 0.7);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
+        background: #ffffff;
         border: 1px solid rgba(255, 0, 51, 0.3);
         border-radius: 16px;
         padding: 20px;
-        box-shadow: 0 8px 32px rgba(255, 0, 51, 0.08);
+        box-shadow: 0 4px 12px rgba(255, 0, 51, 0.1);
         transition: all 0.3s ease;
     }
     div[data-testid="stMetric"]:hover {
         transform: translateY(-4px);
-        box-shadow: 0 12px 40px rgba(255, 0, 51, 0.25);
+        box-shadow: 0 8px 24px rgba(255, 0, 51, 0.2);
         border-color: rgba(255, 0, 51, 0.6);
     }
     .stDataFrame { border-radius: 10px; overflow: hidden; }
@@ -392,25 +391,23 @@ st.markdown("""
         letter-spacing: 0.3px;
     }
     .stButton > button:hover {
-        box-shadow: 0 0 25px rgba(255, 0, 51, 0.5), 0 0 50px rgba(170, 0, 0, 0.2);
+        box-shadow: 0 0 15px rgba(255, 0, 51, 0.4), 0 0 30px rgba(170, 0, 0, 0.2);
         transform: scale(1.03);
         color: white;
     }
     .stTextInput > div > div > input, .stNumberInput > div > div > input, .stSelectbox > div > div, .stTextArea > div > div > textarea {
-        background: rgba(26, 26, 26, 0.6) !important;
-        backdrop-filter: blur(8px) !important;
-        border: 1px solid rgba(255,255,255,0.1) !important;
+        background: #ffffff !important;
+        border: 1px solid #cccccc !important;
         border-radius: 10px !important;
-        color: #fff !important;
+        color: #1a1a1a !important;
         transition: border-color 0.3s ease !important;
     }
     .stTextInput > div > div > input:focus, .stNumberInput > div > div > input:focus, .stTextArea > div > div > textarea:focus {
         border-color: #ff0033 !important;
-        box-shadow: 0 0 12px rgba(255, 0, 51, 0.15) !important;
+        box-shadow: 0 0 8px rgba(255, 0, 51, 0.2) !important;
     }
     .section-header {
-        background: rgba(17, 17, 17, 0.8);
-        backdrop-filter: blur(8px);
+        background: #f8f9fa;
         border-left: 4px solid #ff0033;
         padding: 12px 20px;
         border-radius: 0 12px 12px 0;
@@ -418,14 +415,13 @@ st.markdown("""
     }
     .section-header h3 { margin: 0; color: #ff0033; font-weight: 600; }
     .hero-banner {
-        background: rgba(17, 17, 17, 0.6);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: #ffffff;
+        border: 1px solid #eeeeee;
         border-radius: 20px;
         padding: 36px 40px;
         margin-bottom: 28px;
         text-align: center;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
     }
     .hero-banner h1 {
         background: linear-gradient(135deg, #ff0033, #ff4444, #aa0000);
@@ -436,29 +432,29 @@ st.markdown("""
         font-weight: 700;
         animation: gradientShift 4s ease infinite;
     }
+    .hero-banner p { color: #666666 !important; }
     @keyframes gradientShift {
         0% { background-position: 0% 50%; }
         50% { background-position: 100% 50%; }
         100% { background-position: 0% 50%; }
     }
     .badge { padding: 4px 14px; border-radius: 12px; font-size: 0.8rem; font-weight: 600; }
-    .badge-delivered { background: rgba(0,77,0,0.6); color: #00ff00; border: 1px solid #00ff00; }
-    .badge-transit { background: rgba(0,34,77,0.6); color: #00aaff; border: 1px solid #00aaff; }
-    .badge-booked { background: rgba(77,51,0,0.6); color: #ffaa00; border: 1px solid #ffaa00; }
-    .badge-ofd { background: rgba(51,0,77,0.6); color: #cc00ff; border: 1px solid #cc00ff; }
+    .badge-delivered { background: rgba(0,200,0,0.1); color: #008800; border: 1px solid #008800; }
+    .badge-transit { background: rgba(0,100,255,0.1); color: #0055ff; border: 1px solid #0055ff; }
+    .badge-booked { background: rgba(255,150,0,0.1); color: #dd8800; border: 1px solid #dd8800; }
+    .badge-ofd { background: rgba(150,0,255,0.1); color: #9900ff; border: 1px solid #9900ff; }
     .invoice-block {
-        background: rgba(15, 15, 15, 0.8);
-        backdrop-filter: blur(8px);
+        background: #ffffff;
         border: 1px solid #ff0033;
         border-radius: 12px;
         padding: 20px;
         font-family: 'Courier New', monospace;
-        color: #ff4444;
+        color: #aa0000;
         white-space: pre;
         overflow-x: auto;
     }
     div[data-testid="stTabs"] button {
-        color: #aaa !important;
+        color: #555555 !important;
         font-weight: 500;
     }
     div[data-testid="stTabs"] button[aria-selected="true"] {
@@ -471,7 +467,7 @@ st.markdown("""
         float: right;
         margin-top: -10px;
         margin-bottom: 15px;
-        background: rgba(26,26,26,0.9);
+        background: #ffffff;
         padding: 10px 20px;
         border-radius: 20px;
         border: 1px solid rgba(255,0,51,0.5);

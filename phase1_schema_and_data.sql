@@ -204,5 +204,3 @@ LEFT JOIN Shipment s ON ds.Employee_ID = s.Employee_ID
 GROUP BY ds.Employee_ID, ds.Employee_Name, ds.Assigned_Area
 HAVING COUNT(s.Shipment_ID) > 0
 ORDER BY Delivered_Count DESC;
-
-
