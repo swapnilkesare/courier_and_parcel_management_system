@@ -8,8 +8,8 @@ USE courier_management;
 CREATE TABLE User_Login (
     Username        VARCHAR(50)     PRIMARY KEY,
     Password        VARCHAR(255)    NOT NULL,
-    Role            ENUM('Admin', 'Staff', 'Customer')
-                                    NOT NULL DEFAULT 'Customer'
+    Role            ENUM('Admin', 'Staff')
+                                    NOT NULL DEFAULT 'Staff'
 ) ENGINE=InnoDB;
 
 CREATE TABLE Customer (
@@ -87,11 +87,7 @@ INSERT INTO User_Login (Username, Password, Role) VALUES
     ('admin',       'Admin@2026',   'Admin'),
     ('staff_raj',   'Raj$taff1',    'Staff'),
     ('staff_neha',  'Neha$taff2',   'Staff'),
-    ('staff_amit',  'Amit$taff3',   'Staff'),
-    ('cust_amit',   'Amit#123',     'Customer'),
-    ('cust_priya',  'Priya#456',    'Customer'),
-    ('cust_rahul',  'Rahul#789',    'Customer'),
-    ('cust_sneha',  'Sneha#012',    'Customer');
+    ('staff_amit',  'Amit$taff3',   'Staff');
 
 -- Expanded customer base
 INSERT INTO Customer (Customer_Name, Mobile_Number, Email, Pickup_Address, Delivery_Address) VALUES
