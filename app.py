@@ -140,8 +140,6 @@ def _init_mock():
         "staff_raj":  {"password": "Raj$taff1",   "role": "Staff"},
         "staff_neha": {"password": "Neha$taff2",  "role": "Staff"},
         "staff_amit": {"password": "Amit$taff3",  "role": "Staff"},
-        "cust_amit":  {"password": "Amit#123",    "role": "Customer"},
-        "cust_priya": {"password": "Priya#456",   "role": "Customer"},
     }
     st.session_state.mock_customers = pd.DataFrame([
         {"Customer_ID": 1, "Customer_Name": "Amit Sharma",  "Mobile_Number": "9876543210", "Email": "amit.sharma@email.com",  "Pickup_Address": "12 MG Road, Pune", "Delivery_Address": "45 Park Street, Mumbai"},
@@ -495,20 +493,48 @@ def status_badge(status):
     css_class = {"Delivered": "badge-delivered", "In Transit": "badge-transit", "Booked": "badge-booked", "Out for Delivery": "badge-ofd"}.get(status, "badge-booked")
     return f'<span class="badge {css_class}">{status}</span>'
 
-def page_login():
+def page_home():
     st.markdown("""
     <div class="hero-banner">
         <h1>🚚 Velocity Logistics</h1>
         <p style="color:#aaa; font-size:1.1rem; margin-top:8px;">Enterprise Courier & Fleet Management</p>
     </div>
     """, unsafe_allow_html=True)
-    col1, col2, col3 = st.columns([1, 1.5, 1])
-    with col2:
-        lottie_hello = load_lottieurl("https://assets9.lottiefiles.com/packages/lf20_q5pk6p1k.json")
-        if lottie_hello:
-            st_lottie(lottie_hello, height=200, key="lottie_login")
+    
+    col_trk, col_log = st.columns([1.5, 1])
+    
+    with col_trk:
+        st.markdown("#### 📦 Track Your Package")
+        st.markdown("No login required. Enter your Tracking ID below to see live status.")
+        track_id = st.text_input("Tracking ID", placeholder="e.g. TRK-20260701-000001", key="public_track")
+        if st.button("🔍 Track Package", use_container_width=True):
+            if not track_id:
+                st.warning("Please enter a tracking ID.")
+            else:
+                if MOCK_MODE:
+                    p_mask = st.session_state.mock_parcels["Tracking_Number"] == track_id
+                    if not p_mask.any():
+                        st.error("Tracking ID not found.")
+                    else:
+                        pid = st.session_state.mock_parcels[p_mask].iloc[0]["Parcel_ID"]
+                        s_mask = st.session_state.mock_shipments["Parcel_ID"] == pid
+                        if s_mask.any():
+                            status = st.session_state.mock_shipments[s_mask].iloc[0]["Shipment_Status"]
+                            loc = st.session_state.mock_shipments[s_mask].iloc[0]["Current_Location"]
+                            st.success(f"**Status:** {status} | **Location:** {loc}")
+                        else:
+                            st.error("Shipment details not found.")
+                else:
+                    q = "SELECT s.Shipment_Status, s.Current_Location FROM Shipment s INNER JOIN Parcel p ON s.Parcel_ID = p.Parcel_ID WHERE p.Tracking_Number = %s"
+                    df = run_query(q, (track_id,))
+                    if df.empty:
+                        st.error("Tracking ID not found.")
+                    else:
+                        st.success(f"**Status:** {df.iloc[0]['Shipment_Status']} | **Location:** {df.iloc[0]['Current_Location']}")
+                        
+    with col_log:
         with st.container():
-            st.markdown("#### 🔐 Secure Portal Login")
+            st.markdown("#### 🔐 Staff / Admin Portal")
             username = st.text_input("Username", key="login_user")
             password = st.text_input("Password", type="password", key="login_pass")
             if st.button("Sign In", use_container_width=True):
@@ -555,13 +581,20 @@ def page_dashboard():
         pending_payments = int(run_query("SELECT COUNT(*) AS c FROM Payment WHERE Payment_Status='Pending'").iloc[0]["c"])
         total_customers = int(run_query("SELECT COUNT(*) AS c FROM Customer").iloc[0]["c"])
 
-    m1, m2, m3, m4, m5, m6 = st.columns(6)
-    m1.metric("📦 Parcels", total_parcels, "All Time")
-    m2.metric("✅ Delivered", delivered, "+2")
-    m3.metric("🚚 In Transit", in_transit)
-    m4.metric("💰 Revenue", f"₹{total_revenue:,.0f}", "+12%")
-    m5.metric("⏳ Pending", pending_payments, "-1")
-    m6.metric("👥 Customers", total_customers, "+4")
+    if st.session_state.role == "Admin":
+        m1, m2, m3, m4, m5, m6 = st.columns(6)
+        m1.metric("📦 Parcels", total_parcels, "All Time")
+        m2.metric("✅ Delivered", delivered, "+2")
+        m3.metric("🚚 In Transit", in_transit)
+        m4.metric("💰 Revenue", f"₹{total_revenue:,.0f}", "+12%")
+        m5.metric("⏳ Pending", pending_payments, "-1")
+        m6.metric("👥 Customers", total_customers, "+4")
+    else:
+        m1, m2, m3, m4 = st.columns(4)
+        m1.metric("📦 Parcels", total_parcels, "All Time")
+        m2.metric("✅ Delivered", delivered, "+2")
+        m3.metric("🚚 In Transit", in_transit)
+        m4.metric("👥 Customers", total_customers, "+4")
 
     st.markdown("---")
     st.markdown('<div class="section-header"><h3>🕐 Recent Shipments</h3></div>', unsafe_allow_html=True)
@@ -942,7 +975,7 @@ def page_messaging():
 
 def main():
     if not st.session_state.logged_in:
-        page_login()
+        page_home()
         return
 
     # Top User Profile indicator
