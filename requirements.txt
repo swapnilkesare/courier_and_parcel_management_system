@@ -1,0 +1,9 @@
+streamlit>=1.36.0
+mysql-connector-python>=9.0.0
+pandas>=2.0.0
+streamlit-lottie>=0.0.3
+plotly>=5.15.0
+streamlit-folium>=0.13.0
+folium>=0.14.0
+qrcode>=7.4.2
+Pillow>=10.0.0
