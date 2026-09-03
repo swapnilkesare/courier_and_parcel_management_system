@@ -1,3 +1,9 @@
+<p align="center">
+  <a href="https://git.io/typing-svg">
+    <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=600&size=24&pause=1000&color=F97316&center=true&vCenter=true&width=650&lines=%F0%9F%93%A6+Courier+%26+Parcel+Management+System;%F0%9F%9A%9A+Real-Time+Package+Tracking+%26+Dispatch;%E2%9C%89%EF%B8%8F+Automated+Logistics+%26+Route+Optimization" alt="Typing Header" />
+  </a>
+</p>
+
 # Velocity Logistics - Enterprise Courier & Fleet Management System
 
 Velocity Logistics is a comprehensive database management system (DBMS) micro-project built to handle courier, parcel, and fleet management operations efficiently. The application provides an intuitive interface for both customers and administrative staff to track, book, and manage parcel deliveries globally.
